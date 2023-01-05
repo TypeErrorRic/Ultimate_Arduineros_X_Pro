@@ -12,7 +12,7 @@ app.use(require('./routes'));
 
 
 //Archivos estaticos
-
+app.use(express.static(path.join(__dirname + '/public')));
 
 //Servidor escuchando
 app.listen(app.get('port'), () =>{

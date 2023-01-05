@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title> <%= title %> </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital@1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 
@@ -12,18 +16,35 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.1/lottie.min.js" type="text/javascript"></script>
     
-    <div class="anim">
+    <div class="animaciones">
+        <div class="sunAnim">
+        </div>
+    
+        <div class="plantAnim">
+        </div>
     </div>
-
+    
     <script>
-        let anim = document.querySelector('.anim');
+        let sunAnim = document.querySelector('.sunAnim');
         var animation = bodymovin.loadAnimation({
-        container: anim, // Required
+        container: sunAnim, // Required
         path: 'https://assets9.lottiefiles.com/private_files/lf30_Um0Z9o.json', // Required
         renderer: 'svg', // Required
         loop: true, // Optional
         autoplay: true, // Optional
-        name: "Hello World", // Name for future reference. Optional.
+        name: "sun", // Name for future reference. Optional.
+        })
+    </script>
+
+    <script>
+        let plantAnim = document.querySelector('.plantAnim');
+        var animation = bodymovin.loadAnimation({
+        container: plantAnim, // Required
+        path: 'https://assets1.lottiefiles.com/packages/lf20_xd9ypluc.json', // Required
+        renderer: 'svg', // Required
+        loop: false, // Optional
+        autoplay: true, // Optional
+        name: "plant", // Name for future reference. Optional.
         })
     </script>
 

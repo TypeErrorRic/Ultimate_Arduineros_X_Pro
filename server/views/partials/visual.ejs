@@ -1,0 +1,75 @@
+<div class="visual">
+
+    <div class="button" id="button">
+        <img src="/img/regadera.png" class="regadera" alt="">
+    </div>
+    <div class="sunAnim">
+    </div> 
+    <div class="regar" id="regar">
+    </div>
+    <div class="plantAnim">
+        <div class="backg">
+        </div>
+    </div>
+</div>
+
+<script>
+    let button = document.getElementById('button');
+    let counter = 0;
+    button.addEventListener('click', regarPlanta);
+
+    function regarPlanta(){
+        ++counter;
+        document.getElementById('regar').style.display = 'block';
+        setTimeout(function(){
+            document.getElementById('regar').style.display = 'none';
+        }, 5000);
+        if (counter>1){
+            alert('STOPPPPP');
+        };
+    };
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.1/lottie.min.js" type="text/javascript"></script>
+<script>
+    let sunAnim = document.querySelector('.sunAnim');
+    let plantAnim = document.querySelector('.plantAnim');
+    let regar = document.querySelector('.regar');
+    let backg = document.querySelector('.backg');
+
+    var animation = bodymovin.loadAnimation({
+        container: sunAnim, // Required
+        path: 'https://assets9.lottiefiles.com/private_files/lf30_Um0Z9o.json', // Required
+        renderer: 'svg', // Required
+        loop: true, // Optional
+        autoplay: true, // Optional
+        name: "sun", // Name for future reference. Optional.
+    })
+
+    var animation = bodymovin.loadAnimation({
+        container: plantAnim, // Required
+        path: 'https://assets1.lottiefiles.com/packages/lf20_xd9ypluc.json', // Required
+        renderer: 'svg', // Required
+        loop: false, // Optional
+        autoplay: true, // Optional
+        name: "plant", // Name for future reference. Optional.
+    })
+
+    var animation = bodymovin.loadAnimation({
+        container: backg, // Required
+        path: 'https://assets10.lottiefiles.com/packages/lf20_k6ckuttb.json', // Required
+        renderer: 'svg', // Required
+        loop: false, // Optional
+        autoplay: true, // Optional
+        name: "backg", // Name for future reference. Optional.
+    })
+
+    var animation = bodymovin.loadAnimation({
+        container: regar, // Required
+        path: 'https://assets9.lottiefiles.com/packages/lf20_fhxk8c44.json', // Required
+        renderer: 'svg', // Required
+        loop: true, // Optional
+        autoplay: true, // Optional
+        name: "regar", // Name for future reference. Optional.
+    })
+</script>

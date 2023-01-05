@@ -1,9 +1,16 @@
 body{
     font-family: 'Rubik', sans-serif;
+    background: #ECE9E6;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+}
+
+h1{
+    text-align: center;
 }
 
 
-.animaciones{
+.visual{
     margin: 1px;
     width: 350px;
     height: 350px;
@@ -14,6 +21,7 @@ body{
     margin-top: -175px;
     margin-left: -175px;
 }
+
 .sunAnim{
     width: 60%;
     height: 60%;
@@ -25,6 +33,26 @@ body{
     margin-left: -45%;
 }
 
+.backg{
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    position: absolute;
+    left: 0;
+    top: -20%;
+}
+
+.regar{
+    display: none;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    position: absolute;
+    left: 0;
+    top: 10%;
+}
+
 .plantAnim{
     width: 60%;
     height: 60%;
@@ -33,5 +61,32 @@ body{
     left: 50%;
     top: 100%;
     margin-top: -60%;
+    margin-left: -30%;
+}
+
+.button{
+    z-index: 2;
+    width: 20%;
+    height: 20%;
+    background-color: cadetblue;
+    position: absolute;
+    border-radius: 50%;
+    left: 0%;
+    top: 0%;
+}
+
+.button:hover{
+    width: 23%;
+    height: 23%;
+}
+
+.regadera{
+    z-index: 1;
+    width: 65%;
+    height: 65%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -30%;
     margin-left: -30%;
 }

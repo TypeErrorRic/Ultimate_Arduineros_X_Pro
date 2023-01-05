@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1> MI PLANTA UGU </h1>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.1/lottie.min.js" type="text/javascript"></script>
+    
+    <div class="anim">
+    </div>
+
+    <script>
+        let anim = document.querySelector('.anim');
+        var animation = bodymovin.loadAnimation({
+        container: anim, // Required
+        path: 'https://assets9.lottiefiles.com/private_files/lf30_Um0Z9o.json', // Required
+        renderer: 'svg', // Required
+        loop: true, // Optional
+        autoplay: true, // Optional
+        name: "Hello World", // Name for future reference. Optional.
+        })
+    </script>
+
+</body>
+</html>

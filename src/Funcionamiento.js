@@ -1,57 +1,78 @@
+import { connect } from './db.js'
+
 let date = new Date();
-let actual = 0;
 const url = "https://api.openweathermap.org/data/2.5/weather?"
 const apy_key = "6484f72d4341c29100bed5706514747c"
 const lugar = "lat=44.34&lon=10.99"
 const unidades = "units=metric"
-let contador=0;
-let disminucion=false;
 
-export const hum_temp = 
+let indice = 1;
+
+export const hum_temp =
 {
     temperatura: 234.5,
     humedad: 0,
+    Now: 0,
+    contador: 0,
+    disminucion: false,
 }
 
 //Funcion para modificar los valroes de la temperatura y humedad
-const obtencion_tem_hum = async (tiempo, value) => {
-    if(value != 0)
-        contador = value;
-    if(tiempo - actual != 0)
+const obtencion_tem_hum = async (tiempo, value, inicio) => {
+    console.log(`Diferencia: ${Math.abs(tiempo - hum_temp.Now) }`)
+    if (Math.abs(tiempo - hum_temp.Now) >= 10 || inicio) 
     {
-        await fetch(`${url}${lugar}&appid=${apy_key}&${unidades}`).
-        then(res => res.json()).
-            then(data => {
-                hum_temp.temperatura = data.main.temp - contador;
-                hum_temp.humedad = data.main.humidity + contador;
-                actual = tiempo;
-                if(contador != 0)
-                {
-                    if (contador <= value && !disminucion) {
-                        contador++;
-                        disminucion = true;
+        try
+        {
+            await fetch(`${url}${lugar}&appid=${apy_key}&${unidades}`).
+                then(res => res.json()).
+                then(data => {
+                    hum_temp.temperatura = data.main.temp
+                    hum_temp.humedad = data.main.humidity
+                    console.log(hum_temp.contador);
+                    hum_temp.Now = tiempo;
+                    if (hum_temp.contador != 0) {
+                        hum_temp.temperatura = data.main.temp - ((10 - hum_temp.contador) / 10);
+                        hum_temp.temperatura = hum_temp.temperatura.toFixed(2)
+                        hum_temp.humedad = data.main.humidity + (10 - hum_temp.contador);
+                        hum_temp.humedad = hum_temp.humedad.toFixed(2)
+                        if (hum_temp.contador > 1 && !hum_temp.disminucion) {
+                            hum_temp.contador -= 1;
+                            if (hum_temp.contador == 1)
+                                hum_temp.disminucion = true;
+                        }
+                        else if (hum_temp.contador == 1 || hum_temp.disminucion) {
+                            hum_temp.contador += 1;
+                            if (hum_temp.contador == 10) {
+                                hum_temp.disminucion = false;
+                                hum_temp.contador = 0;
+                            }
+                        }
                     }
-                    else if (contador > 0 && disminucion)
-                        contador-- 
-                }
-                else
-                    disminucion = false;
-            })
+                })
+        }
+        catch(error)
+        {
+            console.log(error);
+        }
+        if (value) {
+            hum_temp.contador = 10;
+        }
     }
 }
 
 //Objecto literal con la información y los metodos para realizar los calculos.
-export const Funciones  = {
+export const Funciones = {
     indice: 1,
     size: 31,
     long_time: [
-        date.getMonth(), 
-        date.getDate(), 
+        date.getMonth(),
+        date.getDate(),
         date.getFullYear()
     ],
     short_time: [
-        date.getHours(), 
-        date.getMinutes(), 
+        date.getHours(),
+        date.getMinutes(),
         date.getSeconds()
     ],
     Date: "",
@@ -64,11 +85,10 @@ export const Funciones  = {
         luz: 55.5
     },
     inicio: true,
-    Update: function()
-    {
+    Update: function () {
         date = new Date();
         //Tiempo largo:
-        this.long_time[0] = (date.getMonth()+1)
+        this.long_time[0] = (date.getMonth() + 1)
         this.long_time[1] = date.getDate()
         this.long_time[2] = date.getFullYear()
         //Short tiempo:
@@ -77,71 +97,120 @@ export const Funciones  = {
         this.short_time[1] = date.getMinutes()
         this.short_time[2] = date.getSeconds()
         //temp y hum:
-        obtencion_tem_hum(this.short_time[1],0)
+        obtencion_tem_hum(this.short_time[2], false, this.inicio)
     },
-    Fecha: function()
-    {
-        if(this.long_time[0] < 10)
+    Fecha: function () {
+        if (this.long_time[0] < 10)
             this.Date = `${this.long_time[2]}-0${this.long_time[0]}-${this.long_time[1]}`
         else
             this.Date = `${this.long_time[2]}-${this.long_time[0]}-${this.long_time[1]}`
-        this.Date = this.Date + " "+ `${this.short_time[0]}:${this.short_time[1]}:${this.short_time[2]}`
+        this.Date = this.Date + " " + `${this.short_time[0]}:${this.short_time[1]}:${this.short_time[2]}`
         this.values.tiempo = this.Date;
         return this.values.tiempo;
     },
-    cambiar_luz: function()
-    {
-        this.Update();
-        if (this.inicio && this.estatus_day == 'AM' && this.short_time[0] >= 7)
-        {
+    cambiar_luz: function () {
+        if (this.inicio && this.estatus_day == 'AM' && this.short_time[0] >= 7) {
             this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 420)) / 720;
             this.values.luz = this.values.luz.toFixed(2);
-            this.incio = false;
+            this.inicio = false;
         }
-        else if (this.inicio && this.estatus_day == 'PM' && this.short_time[0] <= 7)
-        {
+        else if (this.inicio && this.estatus_day == 'PM' && this.short_time[0] <= 7) {
             this.values.luz = 100 - (100 * (this.short_time[1] + (this.short_time[0] * 60))) / 720;
             this.values.luz = this.values.luz.toFixed(2);
-            this.incio = false;
+            this.inicio = false;
         }
         else if (this.inicio)
             this.values.luz == 0;
-        if(this.short_time[1] % 10 === 0 && this.change && this.estatus_day == 'AM' && this.short_time[0] >= 7)
-        {
+        if (this.short_time[1] % 10 === 0 && this.change && this.estatus_day == 'AM' && this.short_time[0] >= 7) {
             this.change = false;
             this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 420)) / 720;
             this.values.luz = this.values.luz.toFixed(2);
         }
-        else if (this.short_time[1] % 10 === 0 && this.change && this.estatus_day == 'PM' && this.short_time[0] <= 7)
-        {
+        else if (this.short_time[1] % 10 === 0 && this.change && this.estatus_day == 'PM' && this.short_time[0] <= 7) {
             this.change = false;
             this.values.luz = 100 - (100 * (this.short_time[1] + (this.short_time[0] * 60))) / 720;
             this.values.luz = this.values.luz.toFixed(2);
         }
-        else if (this.short_time[1] % 10 != 0)
-        {
+        else if (this.short_time[1] % 10 != 0) {
             this.change = true;
         }
         return this.values.luz;
     },
-    Estado_boton: function(bomba)
-    {
-        this.Update()
-        if(bomba)
-        {
+    Estado_boton: function (bomba) {
+        if (bomba) {
             this.values.bomba = true
+            obtencion_tem_hum(this.short_time[2], true, false)
         }
-        if (this.values.bomba)
-        {
-            if(contador == 2)
+        if (this.values.bomba) {
+            if (hum_temp.contador === 5)
                 this.values.bomba = false;
         }
         return this.values.bomba
     }
 };
 
-setInterval(() => {
-    console.log(`${Funciones.Estado_boton(false)} / ${hum_temp.humedad} / ${Funciones.Fecha()} / ${hum_temp.temperatura} / ${Funciones.cambiar_luz()}%`);
-}, 1000);
+const base_datos = async (bomba, humedad, fecha, temperatura, luz, size) => 
+{
+    const [rows] = await connect.query('SELECT * FROM Estado');
+    console.log(rows.length)
+    if (rows.length < size - 1) {
+        const [result] = await connect.query('INSERT INTO estado (BOMBA, HUMEDAD, TIEMPO, TEMPERATURA, LUZ) VALUES (?, ?, ?, ?, ?)',
+            [bomba, humedad, fecha, temperatura, luz]);
+        console.log(result);
+        indice = result.insertId;
+    }
+    else {
+        if (indice == size) indice = 1;
+        const [result] = await connect.query('UPDATE Estado SET BOMBA = ?, HUMEDAD = ?, TIEMPO = ?, TEMPERATURA = ?, LUZ= ? WHERE ID = ?',
+            [bomba, humedad, fecha, temperatura, parseFloat(luz), indice % size])
+        indice += 1;
+        console.log(result)
+    }
+}
+
+
+function Update_base_datos()
+{
+    this.status_bomba = false;
+    this.contador = 4;
+    this.indice = 1;
+    this.size = 10;
+    this.Update_base = async function()
+    {
+        setInterval(() => {
+            Funciones.Update()
+            console.log(`${Funciones.Estado_boton(this.status_bomba)} / ${hum_temp.humedad} / ${Funciones.Fecha()} / ${hum_temp.temperatura} / ${Funciones.cambiar_luz()}%`);
+            if(this.status_bomba)
+            {
+                base_datos(
+                    Funciones.Estado_boton(this.status_bomba),
+                    hum_temp.humedad,
+                    Funciones.Fecha(),
+                    hum_temp.temperatura,
+                    Funciones.cambiar_luz(),
+                    this.size)
+                this.status_bomba = false;
+            }
+            this.contador += 1;
+            if(this.contador === 10)
+            {
+                console.log(`${Funciones.Estado_boton(this.status_bomba)} / ${hum_temp.humedad} / ${Funciones.Fecha()} / ${hum_temp.temperatura} / ${Funciones.cambiar_luz()}%`);
+                base_datos(
+                    Funciones.Estado_boton(this.status_bomba), 
+                    hum_temp.humedad, 
+                    Funciones.Fecha(),
+                    hum_temp.temperatura, 
+                    Funciones.cambiar_luz(),
+                    this.size)
+                this.contador = 0;
+            }
+        }, 1000)
+    }
+}
+
+
+const change = new Update_base_datos();
+
+change.Update_base();
 
 

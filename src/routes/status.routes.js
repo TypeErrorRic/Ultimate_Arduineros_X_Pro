@@ -14,7 +14,7 @@ routes.get('/', get_status)
 
 routes.get('/:id', elemento)
 
-routes.get('/state/:id', ultimo_modificados)
+//routes.get('/state/:id', ultimo_modificados)
 
 routes.put('/', insertar_elemento)
 

@@ -1,4 +1,4 @@
-import { connect } from '../db'
+import { connect } from '../db.js'
 import { Funciones, 
         hum_temp,
 } from '../Funcionamiento.js'

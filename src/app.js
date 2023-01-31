@@ -1,6 +1,6 @@
 import express from 'express'
 import status from './routes/status.routes.js'
-import {PORT} from './db'
+import {PORT} from './db.js'
 
 const app = express();
 

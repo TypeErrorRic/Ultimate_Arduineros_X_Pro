@@ -1,0 +1,36 @@
+body {
+    background-color:beige;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+#main-container{
+    margin: 150px auto;
+    width: 600px;
+}
+
+table{
+    background-color: white;
+    text-align: left;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td{
+    border: solid 1px black;
+    padding: 20px;
+}
+
+thead{
+    background-color:rgba(127, 255, 212, 0.281);
+    border-bottom: solid 5px;
+}
+
+tr:nth-child(even){
+    background-color:azure;
+}
+
+tr:hover td{
+    background-color:aquamarine;
+    color: black;
+}
+

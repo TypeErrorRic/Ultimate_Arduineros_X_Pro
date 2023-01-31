@@ -1,0 +1,27 @@
+<%- include('partials/header'); %>
+    <body>
+        <div id="main-container">
+            <table class="default">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>BOMBA</th>
+                        <th>HUMEDAD</th>
+                        <th>TIEMPO</th>
+                        <th>TEMPERATURA</th>
+                        <th>LUZ</th>
+                    </tr>
+                </thead>
+                <% for(let i=0; i < tabla.length; i++) { %>
+                    <tr>
+                        <% for(let j=0; j < tabla[i].length; j++) { %>
+                            <td>
+                                <%= tabla[i][j]%>
+                            </td>
+                        <% } %>
+                    </tr>
+                <% } %>
+            </table>
+    </body>
+
+<%- include('partials/footer'); %>

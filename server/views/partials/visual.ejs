@@ -3,39 +3,32 @@
     <div class="button" id="button">
         <img src="/img/regadera.png" class="regadera" alt="">
     </div>
-    <div class="sunAnim">
-    </div> 
+
+    <div class="astroAnim" id="sunAnim">
+    </div>
+
+    <div class="astroAnim" id="moonAnim">
+    </div>
+
     <div class="regar" id="regar">
     </div>
-    <div class="plantAnim">
+
+    <div class="plantAnim" id="plantAnim">
         <div class="backg">
         </div>
     </div>
+
 </div>
 
-<script>
-    let button = document.getElementById('button');
-    let counter = 0;
-    button.addEventListener('click', regarPlanta);
-
-    function regarPlanta(){
-        ++counter;
-        document.getElementById('regar').style.display = 'block';
-        setTimeout(function(){
-            document.getElementById('regar').style.display = 'none';
-        }, 5000);
-        if (counter>1){
-            alert('STOPPPPP');
-        };
-    };
-</script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.1/lottie.min.js" type="text/javascript"></script>
+
 <script>
-    let sunAnim = document.querySelector('.sunAnim');
-    let plantAnim = document.querySelector('.plantAnim');
+
+    let sunAnim = document.getElementById('sunAnim');
+    let plantAnim = document.getElementById('plantAnim');
     let regar = document.querySelector('.regar');
     let backg = document.querySelector('.backg');
+    let moonAnim = document.getElementById('moonAnim');
 
     var animation = bodymovin.loadAnimation({
         container: sunAnim, // Required
@@ -44,6 +37,15 @@
         loop: true, // Optional
         autoplay: true, // Optional
         name: "sun", // Name for future reference. Optional.
+    })
+
+    var animation = bodymovin.loadAnimation({
+        container: moonAnim, // Required
+        path: 'https://assets7.lottiefiles.com/packages/lf20_6y2od13d.json', // Required
+        renderer: 'svg', // Required
+        loop: true, // Optional
+        autoplay: true, // Optional
+        name: "moonAnim", // Name for future reference. Optional.
     })
 
     var animation = bodymovin.loadAnimation({
@@ -72,4 +74,7 @@
         autoplay: true, // Optional
         name: "regar", // Name for future reference. Optional.
     })
+
 </script>
+
+    <%- include('visualControl') %>

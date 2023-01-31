@@ -2,9 +2,30 @@
 
 <body>
 
-    <h1> MI PLANTA UGU </h1>
+    <h1> MI PLANTA </h1>
 
     <%- include('partials/visual') %>
 
+   <div class="casilla" id="temperatura">
+        <p style="margin: 10px;">Temperatura C°:</p>
+        <p id="temp"> <%=title%> </p>
+   </div>
+   
+   <div class="casilla" id="humedad">
+        <p style="margin: 10px;">Humedad:</p>
+        <p id="hum">Aqui va la hum</p>
+    </div>
+
+    <div class="casilla" id="luz">
+        <p style="margin: 10px;">Luz %:</p>
+        <p id="lu">Aqui va la luz</p>
+    </div>
+
+    <div class="casilla" id="bomba">
+        <p style="margin: 10px;">Bomba:</p>
+        <p id="bomb">Aqui va la bomb</p>
+    </div>
+
+    <%- include('partials/refresh') %>
 </body>
 </html>

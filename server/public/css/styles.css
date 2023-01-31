@@ -9,7 +9,6 @@ h1{
     text-align: center;
 }
 
-
 .visual{
     margin: 1px;
     width: 350px;
@@ -22,7 +21,7 @@ h1{
     margin-left: -175px;
 }
 
-.sunAnim{
+.astroAnim{
     width: 60%;
     height: 60%;
     background-color: transparent;
@@ -68,7 +67,7 @@ h1{
     z-index: 2;
     width: 20%;
     height: 20%;
-    background-color: cadetblue;
+    background-color: rgb(176, 229, 233);
     position: absolute;
     border-radius: 50%;
     left: 0%;
@@ -89,4 +88,18 @@ h1{
     top: 50%;
     margin-top: -30%;
     margin-left: -30%;
+}
+
+.casilla{
+    padding: 2px;
+    margin: 10px;
+    font-size: 20px;
+    text-align: center;
+    width: 200px;
+    height: 100px;
+    border-radius: 15px;
+    background-color: transparent;
+    border-width: 3px;
+    border-style: solid;
+    border-color: rgb(86, 222, 179);
 }

@@ -10,7 +10,6 @@ app.set('view engine', 'ejs');
 //Rutas
 app.use(require('./routes'));
 
-
 //Archivos estaticos
 app.use(express.static(path.join(__dirname + '/public')));
 

@@ -121,12 +121,12 @@ export const Funciones = {
         }
         else if (this.inicio)
             this.values.luz == 0;
-        if (this.short_time[1] % 2 === 0 && this.change && this.estatus_day == 'AM' && this.short_time[0] >= 7) {
+        if (this.change && this.estatus_day == 'AM' && this.short_time[0] >= 7) {
             this.change = false;
             this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 420)) / 720;
             this.values.luz = this.values.luz.toFixed(2);
         }
-        else if (this.short_time[1] % 2 === 0 && this.change && this.estatus_day == 'PM' && this.short_time[0] <= 7) {
+        else if (this.change && this.estatus_day == 'PM' && this.short_time[0] <= 7) {
             this.change = false;
             this.values.luz = 100 - (100 * (this.short_time[1] + (this.short_time[0] * 60))) / 720;
             this.values.luz = this.values.luz.toFixed(2);
@@ -172,38 +172,35 @@ const base_datos = async (bomba, humedad, fecha, temperatura, luz, size) =>
 function Update_base_datos()
 {
     this.status_bomba = false;
-    this.contador = 4;
-    this.indice = 1;
+    this.contador = 1;
     this.size = 11;
     this.Update_base = async function()
     {
-        setInterval(() => {
-            Funciones.Update()
-            console.log(`${Funciones.Estado_boton(this.status_bomba)} / ${hum_temp.humedad} / ${Funciones.Fecha()} / ${hum_temp.temperatura} / ${Funciones.cambiar_luz()}%`);
-            if(this.status_bomba)
-            {
-                base_datos(
-                    Funciones.Estado_boton(this.status_bomba),
-                    hum_temp.humedad,
-                    Funciones.Fecha(),
-                    hum_temp.temperatura,
-                    Funciones.cambiar_luz(),
-                    this.size)
-                this.status_bomba = false;
-            }
-            this.contador += 1;
-            if(this.contador === 10)
-            {
-                base_datos(
-                    Funciones.Estado_boton(this.status_bomba), 
-                    hum_temp.humedad, 
-                    Funciones.Fecha(),
-                    hum_temp.temperatura, 
-                    Funciones.cambiar_luz(),
-                    this.size)
-                this.contador = 0;
-            }
-        }, 2000)
+        Funciones.Update()
+        console.log(`${Funciones.Estado_boton(this.status_bomba)} / ${hum_temp.humedad} / ${Funciones.Fecha()} / ${hum_temp.temperatura} / ${Funciones.cambiar_luz()}%`);
+        if(this.status_bomba)
+        {
+            base_datos(
+                Funciones.Estado_boton(this.status_bomba),
+                hum_temp.humedad,
+                Funciones.Fecha(),
+                hum_temp.temperatura,
+                Funciones.cambiar_luz(),
+                this.size)
+            this.status_bomba = false;
+        }
+        this.contador += 1;
+        if(this.contador >= 2)
+        {
+            base_datos(
+                Funciones.Estado_boton(this.status_bomba), 
+                hum_temp.humedad, 
+                Funciones.Fecha(),
+                hum_temp.temperatura, 
+                Funciones.cambiar_luz(),
+                this.size)
+            this.contador = 0;
+        }
     }
     this.contador_elements = function()
     {
@@ -211,12 +208,14 @@ function Update_base_datos()
     }
     this.indice_values = function()
     {
+        if(indice == 11)
+        {
+            indice = 1;
+        }
         return indice;
     }
 }
 
 export const change = new Update_base_datos();
-
-change.Update_base();
 
 

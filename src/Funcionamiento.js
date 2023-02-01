@@ -19,7 +19,10 @@ export const hum_temp =
 
 //Funcion para modificar los valroes de la temperatura y humedad
 const obtencion_tem_hum = async (tiempo, value, inicio) => {
-    console.log(`Diferencia: ${Math.abs(tiempo - hum_temp.Now) }`)
+    if (value && hum_temp.contador == 0) 
+    {
+        hum_temp.contador = 10;
+    }
     if (Math.abs(tiempo - hum_temp.Now) >= 10 || inicio) 
     {
         try
@@ -29,7 +32,6 @@ const obtencion_tem_hum = async (tiempo, value, inicio) => {
                 then(data => {
                     hum_temp.temperatura = data.main.temp
                     hum_temp.humedad = data.main.humidity
-                    console.log(hum_temp.contador);
                     hum_temp.Now = tiempo;
                     if (hum_temp.contador != 0) {
                         hum_temp.temperatura = data.main.temp - ((10 - hum_temp.contador) / 10);
@@ -54,9 +56,6 @@ const obtencion_tem_hum = async (tiempo, value, inicio) => {
         catch(error)
         {
             console.log(error);
-        }
-        if (value) {
-            hum_temp.contador = 10;
         }
     }
 }
@@ -121,12 +120,12 @@ export const Funciones = {
         }
         else if (this.inicio)
             this.values.luz == 0;
-        if (this.short_time[1] % 10 === 0 && this.change && this.estatus_day == 'AM' && this.short_time[0] >= 7) {
+        if (this.short_time[1] % 2 === 0 && this.change && this.estatus_day == 'AM' && this.short_time[0] >= 7) {
             this.change = false;
             this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 420)) / 720;
             this.values.luz = this.values.luz.toFixed(2);
         }
-        else if (this.short_time[1] % 10 === 0 && this.change && this.estatus_day == 'PM' && this.short_time[0] <= 7) {
+        else if (this.short_time[1] % 2 === 0 && this.change && this.estatus_day == 'PM' && this.short_time[0] <= 7) {
             this.change = false;
             this.values.luz = 100 - (100 * (this.short_time[1] + (this.short_time[0] * 60))) / 720;
             this.values.luz = this.values.luz.toFixed(2);
@@ -143,20 +142,21 @@ export const Funciones = {
         }
         if (this.values.bomba) {
             if (hum_temp.contador === 5)
+            {
                 this.values.bomba = false;
+            }
         }
         return this.values.bomba
     }
 };
 
+//Sistema de comunicacion y actualizacion de datos.
 const base_datos = async (bomba, humedad, fecha, temperatura, luz, size) => 
 {
     const [rows] = await connect.query('SELECT * FROM Estado');
-    console.log(rows.length)
     if (rows.length < size - 1) {
         const [result] = await connect.query('INSERT INTO estado (BOMBA, HUMEDAD, TIEMPO, TEMPERATURA, LUZ) VALUES (?, ?, ?, ?, ?)',
             [bomba, humedad, fecha, temperatura, luz]);
-        console.log(result);
         indice = result.insertId;
     }
     else {
@@ -164,17 +164,16 @@ const base_datos = async (bomba, humedad, fecha, temperatura, luz, size) =>
         const [result] = await connect.query('UPDATE Estado SET BOMBA = ?, HUMEDAD = ?, TIEMPO = ?, TEMPERATURA = ?, LUZ= ? WHERE ID = ?',
             [bomba, humedad, fecha, temperatura, parseFloat(luz), indice % size])
         indice += 1;
-        console.log(result)
     }
 }
 
-
+//Constructor de la clase de elementos:
 function Update_base_datos()
 {
     this.status_bomba = false;
     this.contador = 4;
     this.indice = 1;
-    this.size = 10;
+    this.size = 11;
     this.Update_base = async function()
     {
         setInterval(() => {
@@ -194,7 +193,6 @@ function Update_base_datos()
             this.contador += 1;
             if(this.contador === 10)
             {
-                console.log(`${Funciones.Estado_boton(this.status_bomba)} / ${hum_temp.humedad} / ${Funciones.Fecha()} / ${hum_temp.temperatura} / ${Funciones.cambiar_luz()}%`);
                 base_datos(
                     Funciones.Estado_boton(this.status_bomba), 
                     hum_temp.humedad, 
@@ -206,10 +204,17 @@ function Update_base_datos()
             }
         }, 1000)
     }
+    this.contador_elements = function()
+    {
+        return hum_temp.contador;
+    }
+    this.indice_values = function()
+    {
+        return indice;
+    }
 }
 
-
-const change = new Update_base_datos();
+export const change = new Update_base_datos();
 
 change.Update_base();
 

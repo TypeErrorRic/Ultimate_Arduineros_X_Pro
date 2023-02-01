@@ -1,11 +1,11 @@
-<script>
+(function () {
     //Control de animaciones
     let counter = 0;
     let astro = 0;
     let planta = 0;
     let temperatura = 0;
 
-    if(astro == 0){
+    if (astro == 0) {
         document.getElementById('moonAnim').style.display = 'none';
     }
 
@@ -14,19 +14,19 @@
 
     button.addEventListener('click', regarPlanta);
 
-    function regarPlanta(){
+    function regarPlanta() {
         ++counter;
         title = 'gg';
-        if (counter < 2){
+        if (counter < 2) {
             document.getElementById('regar').style.display = 'block';
-            setTimeout(function(){
+            setTimeout(function () {
                 document.getElementById('regar').style.display = 'none';
                 counter = 0;
             }, 6000);
         } else;
 
-        if (counter>1){
+        if (counter > 1) {
             alert('Por favor espera a que termine de regar');
         };
     };
-</script>
+})();

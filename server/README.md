@@ -1,2 +1,0 @@
-# Todos podemos XD
-# Noup

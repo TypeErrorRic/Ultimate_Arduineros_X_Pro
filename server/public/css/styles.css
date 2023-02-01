@@ -93,10 +93,10 @@ h1{
 .casilla{
     padding: 2px;
     margin: 10px;
-    font-size: 20px;
+    font-size:100%;
     text-align: center;
-    width: 200px;
-    height: 100px;
+    width: 15%;
+    height: 20%;
     border-radius: 15px;
     background-color: transparent;
     border-width: 3px;

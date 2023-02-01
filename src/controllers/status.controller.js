@@ -23,11 +23,13 @@ export const elemento = async (req, res) =>
 export const ultimo_modificados = async (req, res) =>
 {
     change.Update_base();
-    const [result] = await connect.query('SELECT * FROM Estado WHERE id = ?', [change.indice_values()%change.size])
-    if(result.length <= 0) return res.status(404).json({
-        message: 'Elemento no encontrado'
-    })
-    res.json(result);
+    setTimeout( async () => {
+        const [result] = await connect.query('SELECT * FROM Estado WHERE id = ?', [change.indice_values() % change.size])
+        if (result.length <= 0) return res.status(404).json({
+            message: 'Elemento no encontrado'
+        })
+        res.json(result);
+    },  100);
 }
 
 export const insertar_elemento = async (req, res) => {

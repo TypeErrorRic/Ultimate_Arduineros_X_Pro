@@ -5,7 +5,7 @@ const DB_USER = 'opsz5mvqxt909ki1j7gg'
 const DB_PASSWORD = 'pscale_pw_nnJmckxh22DQ0kLymRX0RnZUGzYERGpJoI8MDkHYSCK'
 const DB_NAME = 'plantica'
 
-export const connect = await createPool({
+export const connect = createPool({
     user: DB_USER,
     password: DB_PASSWORD,
     host: DB_HOST,

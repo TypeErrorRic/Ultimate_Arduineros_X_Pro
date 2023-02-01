@@ -93,6 +93,9 @@ export const Funciones = {
         this.long_time[2] = date.getFullYear()
         //Short tiempo:
         this.estatus_day = date.toLocaleString('en-US', { hour: 'numeric', hour12: true }).substring(2)
+        if(this.estatus_day.length > 2){
+            this.estatus_day = this.estatus_day.substring(1);
+        }
         this.short_time[0] = parseInt(date.toLocaleString('en-US', { hour: 'numeric', hour12: true })[0])
         this.short_time[1] = date.getMinutes()
         this.short_time[2] = date.getSeconds()
@@ -116,7 +119,7 @@ export const Funciones = {
             this.values.luz = this.values.luz.toFixed(2);
             this.inicio = false;
         }
-        else if (this.inicio && this.estatus_day == ' PM' && this.short_time[0] <= 7) 
+        else if (this.inicio && this.estatus_day == 'PM' && this.short_time[0] <= 7) 
         {
             this.values.luz = 100 - (100 * (this.short_time[1] + (this.short_time[0] * 60))) / 720;
             this.values.luz = this.values.luz.toFixed(2);
@@ -128,7 +131,7 @@ export const Funciones = {
             this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 420)) / 720;
             this.values.luz = this.values.luz.toFixed(2);
         }
-        else if (this.change && this.estatus_day == ' PM' && this.short_time[0] <= 7) 
+        else if (this.change && this.estatus_day == 'PM' && this.short_time[0] <= 7) 
         {
             this.change = false;
             this.values.luz = 100 - (100 * (this.short_time[1] + (this.short_time[0] * 60))) / 720;

@@ -109,30 +109,41 @@ export const Funciones = {
         return this.values.tiempo;
     },
     cambiar_luz: function () {
-        if (this.inicio && this.estatus_day == 'AM' && this.short_time[0] >= 7) {
+        //Actualizar recien empieza:
+        if (this.inicio && this.estatus_day == 'AM' && this.short_time[0] >= 7) 
+        {
             this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 420)) / 720;
             this.values.luz = this.values.luz.toFixed(2);
             this.inicio = false;
         }
-        else if (this.inicio && this.estatus_day == 'PM' && this.short_time[0] <= 7) {
+        else if (this.inicio && this.estatus_day == ' PM' && this.short_time[0] <= 7) 
+        {
             this.values.luz = 100 - (100 * (this.short_time[1] + (this.short_time[0] * 60))) / 720;
             this.values.luz = this.values.luz.toFixed(2);
             this.inicio = false;
         }
-        else if (this.inicio)
-            this.values.luz == 0;
+        //Actualizar Fecha:
         if (this.change && this.estatus_day == 'AM' && this.short_time[0] >= 7) {
             this.change = false;
             this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 420)) / 720;
             this.values.luz = this.values.luz.toFixed(2);
         }
-        else if (this.change && this.estatus_day == 'PM' && this.short_time[0] <= 7) {
+        else if (this.change && this.estatus_day == ' PM' && this.short_time[0] <= 7) 
+        {
             this.change = false;
             this.values.luz = 100 - (100 * (this.short_time[1] + (this.short_time[0] * 60))) / 720;
             this.values.luz = this.values.luz.toFixed(2);
         }
-        else if (this.short_time[1] % 10 != 0) {
+        else if (indice%2 === 0) {
             this.change = true;
+            if (this.short_time[0] <= 7 && this.estatus_day == 'AM')
+            {
+                this.values.luz == 0;
+            }
+            else if (this.estatus_day == 'PM' && this.short_time[0] >= 7)
+            {
+                this.values.luz == 0;
+            }
         }
         return this.values.luz;
     },

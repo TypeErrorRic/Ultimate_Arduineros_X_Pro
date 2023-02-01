@@ -1,4 +1,5 @@
 import { connect } from './db.js'
+import fetch from 'cross-fetch';
 
 let date = new Date();
 const url = "https://api.openweathermap.org/data/2.5/weather?"

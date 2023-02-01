@@ -1,18 +1,18 @@
 import {createPool} from 'mysql2/promise'
 
-const DB_HOST = process.env.DB_HOST || 'localhost'
-const DB_USER = process.env.DB_USER || 'root'
-const DB_PASSWORD = process.env.DB_PASSWORD || '312225cp'
-const DB_NAME = process.env.DB_NAME || 'Plantica'
-const DB_PORT = process.env.DB_PORT || 3306
+const DB_HOST = 'us-east.connect.psdb.cloud'
+const DB_USER = 'opsz5mvqxt909ki1j7gg'
+const DB_PASSWORD = 'pscale_pw_nnJmckxh22DQ0kLymRX0RnZUGzYERGpJoI8MDkHYSCK'
+const DB_NAME = 'plantica'
 
-
-export const connect  = createPool({
+export const connect = await createPool({
     user: DB_USER,
     password: DB_PASSWORD,
     host: DB_HOST,
-    port: DB_PORT,
-    database: DB_NAME
+    database: DB_NAME,
+    ssl: {
+        rejectUnauthorized: false
+    }
 })
 
 export const PORT = process.env.PORT || 3000;

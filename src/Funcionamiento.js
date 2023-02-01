@@ -155,7 +155,7 @@ const base_datos = async (bomba, humedad, fecha, temperatura, luz, size) =>
 {
     const [rows] = await connect.query('SELECT * FROM Estado');
     if (rows.length < size - 1) {
-        const [result] = await connect.query('INSERT INTO estado (BOMBA, HUMEDAD, TIEMPO, TEMPERATURA, LUZ) VALUES (?, ?, ?, ?, ?)',
+        const [result] = await connect.query('INSERT INTO Estado (BOMBA, HUMEDAD, TIEMPO, TEMPERATURA, LUZ) VALUES (?, ?, ?, ?, ?)',
             [bomba, humedad, fecha, temperatura, luz]);
         indice = result.insertId;
     }

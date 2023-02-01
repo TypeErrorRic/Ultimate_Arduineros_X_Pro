@@ -185,7 +185,7 @@ function Update_base_datos()
     this.status_bomba = false;
     this.contador = 1;
     this.size = 11;
-    this.Update_base = async function()
+    this.Update_base = function()
     {
         Funciones.Update()
         console.log(`${Funciones.Estado_boton(this.status_bomba)} / ${hum_temp.humedad} / ${Funciones.Fecha()} / ${hum_temp.temperatura} / ${Funciones.cambiar_luz()}%`);

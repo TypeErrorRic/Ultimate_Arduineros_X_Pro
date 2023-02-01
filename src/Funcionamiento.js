@@ -203,7 +203,7 @@ function Update_base_datos()
                     this.size)
                 this.contador = 0;
             }
-        }, 1000)
+        }, 2000)
     }
     this.contador_elements = function()
     {

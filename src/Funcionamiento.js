@@ -161,7 +161,7 @@ const base_datos = async (bomba, humedad, fecha, temperatura, luz, size) =>
     }
     else {
         if (indice == size) indice = 1;
-        const [result] = await connect.query('UPDATE Estado SET BOMBA = ?, HUMEDAD = ?, TIEMPO = ?, TEMPERATURA = ?, LUZ= ? WHERE ID = ?',
+        await connect.query('UPDATE Estado SET BOMBA = ?, HUMEDAD = ?, TIEMPO = ?, TEMPERATURA = ?, LUZ= ? WHERE ID = ?',
             [bomba, humedad, fecha, temperatura, parseFloat(luz), indice % size])
         indice += 1;
     }

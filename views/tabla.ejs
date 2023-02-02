@@ -23,7 +23,7 @@
                         <th><%= base[i].ID %></th>
                         <td><%= base[i].BOMBA %></td>
                         <td><%= base[i].HUMEDAD %></td>
-                        <td><%= base[i].TIEMPO  %></td>
+                        <td><%= (`${base[i].TIEMPO}`.substring(0,`${base[i].TIEMPO}`.indexOf(`(`))) + "(Hora de Colombia)" %></td>
                         <td><%= base[i].TEMPERATURA %></td>
                         <td><%= base[i].LUZ %></td>
                     </tr>

@@ -93,21 +93,31 @@ export const Funciones = {
         this.long_time[1] = date.getDate()
         this.long_time[2] = date.getFullYear()
         //Short tiempo:
-        this.estatus_day = date.toLocaleString('en-US', { hour: 'numeric', hour12: true }).substring(2)
-        if(this.estatus_day.length > 2){
-            this.estatus_day = this.estatus_day.substring(1);
+        this.short_time[0] = date.getHours() - 5;
+        if(12 <= date.getHours() < 17) {
+            this.estatus_day = 'AM'
         }
-        this.short_time[0] = date.getHours();
+        else if (date.getHours() < 5) {
+            this.estatus_day = 'PM'
+        }
+        else {
+            this.estatus_day = date.toLocaleString('en-US', { hour: 'numeric', hour12: true }).substring(2)
+            if (this.estatus_day.length > 2) {
+                this.estatus_day = this.estatus_day.substring(1);
+            }
+        }
         this.short_time[1] = date.getMinutes()
         this.short_time[2] = date.getSeconds()
         //temp y hum:
         obtencion_tem_hum(this.short_time[2], false, this.inicio)
     },
     Fecha: function () {
-        if (this.long_time[0] < 10)
+        if (this.long_time[0] < 10) {
             this.Date = `${this.long_time[2]}-0${this.long_time[0]}-${this.long_time[1]}`
-        else
+        }
+        else {
             this.Date = `${this.long_time[2]}-${this.long_time[0]}-${this.long_time[1]}`
+        }
         this.Date = this.Date + " " + `${this.short_time[0]}:${this.short_time[1]}:${this.short_time[2]}`
         this.values.tiempo = this.Date;
         return this.values.tiempo;
@@ -162,12 +172,6 @@ export const Funciones = {
             this.values.bomba = true
             obtencion_tem_hum(this.short_time[2], true, false)
         }
-        if (this.values.bomba) {
-            if (hum_temp.contador === 8)
-            {
-                this.values.bomba = false;
-            }
-        }
         return this.values.bomba
     }
 };
@@ -189,6 +193,27 @@ const base_datos = async (bomba, humedad, fecha, temperatura, luz, size) =>
     }
 }
 
+const inicializacion = async () =>
+{
+    const [rows] = await connect.query('SELECT BOMBA, TIEMPO FROM Estado WHERE ID = 1');
+    if(rows[0].BOMBA)
+    {
+        var fecha_inicio = new Date(`${rows[0].TIEMPO}`)
+        if ((fecha_inicio.getHours() == Funciones.short_time[0]) && Math.abs(fecha_inicio.getMinutes() - Funciones.short_time[1]) < 1)
+        {
+            if (Math.abs(fecha_inicio.getSeconds() - Funciones.short_time[2]) < 20) {
+                hum_temp.contador = 7;
+            }
+            else{
+                hum_temp.contador = 5;
+            }
+        }
+    }
+    if(hum_temp.contador > 5) {
+        Funciones.values.bomba = true;
+    }
+}
+
 //Constructor de la clase de elementos:
 function Update_base_datos()
 {
@@ -200,9 +225,15 @@ function Update_base_datos()
     this.Update_base = function()
     {
         Funciones.Update()
+        if (Funciones.inicio) {
+            inicializacion();
+        }
         console.log(`${Funciones.Estado_boton(this.status_bomba)} / ${hum_temp.humedad} / ${Funciones.Fecha()} / ${hum_temp.temperatura} / ${Funciones.cambiar_luz()}%`);
-        if(this.status_bomba)
+        if(this.status_bomba || Funciones.values.bomba)
         {
+            if(this.status_bomba){
+                indice = 1;
+            }
             base_datos(
                 Funciones.Estado_boton(this.status_bomba),
                 hum_temp.humedad,
@@ -211,16 +242,27 @@ function Update_base_datos()
                 Funciones.cambiar_luz(),
                 this.size)
             this.status_bomba = false;
+            this.inicio_time = false;
+            this.contador_inicial = 0;
             this.contador = 0;
+            if(Funciones.values.bomba) {
+                if (hum_temp.contador === 4) {
+                    Funciones.values.bomba = false;
+                    this.inicio_time = true;
+                    this.contador_inicial = 1;
+                }
+            }
         }
         this.contador += 1;
         if(this.contador > 2 || this.inicio_time)
         {
-            if(this.contador_inicial == 12)
-            {
+            if(this.contador_inicial == 12){
                 this.inicio_time = false;
+                this.contador_inicial = 0;
             }
-            this.contador_inicial += 1;
+            else if (this.contador_inicial != 0){
+                this.contador_inicial += 1;
+            }
             base_datos(
                 Funciones.Estado_boton(this.status_bomba), 
                 hum_temp.humedad, 

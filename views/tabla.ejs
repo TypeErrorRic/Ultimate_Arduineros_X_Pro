@@ -21,7 +21,12 @@
                 <% for(let i=0; i < base.length; i++) { %>
                     <tr>
                         <th><%= base[i].ID %></th>
-                        <td><%= base[i].BOMBA %></td>
+                        <td><% if(base[i].BOMBA) { %>
+                                <%= "Encendido" %>
+                            <% } else { %> 
+                                <%= "Apagado" %>
+                            <% } %>
+                        </td>
                         <td><%= base[i].HUMEDAD %></td>
                         <td><%= (`${base[i].TIEMPO}`.substring(0,`${base[i].TIEMPO}`.indexOf(`(`))) + "(Hora de Colombia)" %></td>
                         <td><%= base[i].TEMPERATURA %></td>

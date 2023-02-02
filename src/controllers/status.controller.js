@@ -25,9 +25,16 @@ export const ultimo_modificados = async (req, res) =>
     change.Update_base();
     setTimeout( async () => {
         const [result] = await connect.query('SELECT * FROM Estado WHERE id = ?', [change.indice_values() % change.size])
-        if (result.length <= 0) return res.status(404).json({
-            message: 'Elemento no encontrado'
+        if (result.length <= 0) return res.status(206).json({
+            ID: 1,
+            BOMBA: 0,
+            HUMEDA: 0,
+            TIEMPO: "2023-02-02T18:30:50.000Z",
+            TEMPERATURA: 0,
+            LUZ: 0,
+            time_actual: "2023-02-2 13:34:17"
         })
+        result[0].BOMBA = change.Estado_bomba_envio()
         result[0].time_actual = change.time_vivo()
         res.json(result);
     },  150);

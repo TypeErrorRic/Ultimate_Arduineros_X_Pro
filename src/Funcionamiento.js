@@ -11,7 +11,7 @@ let indice = 1;
 
 export const hum_temp =
 {
-    temperatura: 234.5,
+    temperatura: 0,
     humedad: 0,
     Now: 0,
     contador: 0,
@@ -20,16 +20,13 @@ export const hum_temp =
 
 //Funcion para modificar los valroes de la temperatura y humedad
 const obtencion_tem_hum = async (tiempo, value, inicio) => {
-    if (value && hum_temp.contador == 0) 
-    {
+    if (value && hum_temp.contador == 0) {
         hum_temp.contador = 10;
     }
-    if (Math.abs(tiempo - hum_temp.Now) >= 10 || inicio) 
-    {
+    if (Math.abs(tiempo - hum_temp.Now) >= 10 || inicio) {
         console.log("-----------------------");
         hum_temp.Now = tiempo;
-        try
-        {
+        try {
             await fetch(`${url}${lugar}&appid=${apy_key}&${unidades}`).
                 then(res => res.json()).
                 then(data => {
@@ -55,8 +52,7 @@ const obtencion_tem_hum = async (tiempo, value, inicio) => {
                     }
                 })
         }
-        catch(error)
-        {
+        catch (error) {
             console.log(error);
         }
     }
@@ -94,7 +90,7 @@ export const Funciones = {
         this.long_time[2] = date.getFullYear()
         //Short tiempo:
         this.short_time[0] = date.getHours() - 5;
-        if(12 <= date.getHours() < 17) {
+        if (12 <= date.getHours() && date.getHours() < 17) {
             this.estatus_day = 'AM'
         }
         else if (date.getHours() < 5) {
@@ -124,20 +120,18 @@ export const Funciones = {
     },
     cambiar_luz: function () {
         //Actualizar recien empieza:
-        if (this.inicio && this.estatus_day == 'AM' && this.short_time[0] >= 6) 
-        {
+        if (this.inicio && this.estatus_day == 'AM' && this.short_time[0] >= 6) {
             this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 360)) / 360;
             this.values.luz = this.values.luz.toFixed(2);
             this.inicio = false;
         }
-        else if (this.inicio && this.estatus_day == 'PM' && (this.short_time[0] - 12) < 6) 
-        {
+        else if (this.inicio && this.estatus_day == 'PM' && (this.short_time[0] - 12) < 6) {
             this.values.luz = 100 - (100 * (this.short_time[1] + ((this.short_time[0] - 12) * 60)) / 360);
             this.values.luz = this.values.luz.toFixed(2);
             this.inicio = false;
         }
-        else{
-            this.inicio = false;  
+        else {
+            this.inicio = false;
         }
         //Actualizar Fecha:
         if (this.change && this.estatus_day == 'AM' && this.short_time[0] >= 6) {
@@ -145,23 +139,19 @@ export const Funciones = {
             this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 360)) / 360;
             this.values.luz = this.values.luz.toFixed(2);
         }
-        else if (this.change && this.estatus_day == 'PM' && (this.short_time[0] - 12) < 6) 
-        {
+        else if (this.change && this.estatus_day == 'PM' && (this.short_time[0] - 12) < 6) {
             this.change = false;
             this.values.luz = 100 - (100 * (this.short_time[1] + ((this.short_time[0] - 12) * 60)) / 360);
             this.values.luz = this.values.luz.toFixed(2);
         }
         else if (indice % 2 === 0) {
-            if (this.short_time[0] < 6 && this.estatus_day == 'AM')
-            {
+            if (this.short_time[0] < 6 && this.estatus_day == 'AM') {
                 this.values.luz = 0;
             }
-            else if (this.estatus_day == 'PM' && (this.short_time[0] - 12) >= 6)
-            {
+            else if (this.estatus_day == 'PM' && (this.short_time[0] - 12) >= 6) {
                 this.values.luz = 0;
             }
-            else
-            {
+            else {
                 this.change = true;
             }
         }
@@ -177,8 +167,7 @@ export const Funciones = {
 };
 
 //Sistema de comunicacion y actualizacion de datos.
-const base_datos = async (bomba, humedad, fecha, temperatura, luz, size) => 
-{
+const base_datos = async (bomba, humedad, fecha, temperatura, luz, size) => {
     const [rows] = await connect.query('SELECT * FROM Estado');
     if (rows.length < size - 1) {
         const [result] = await connect.query('INSERT INTO Estado (BOMBA, HUMEDAD, TIEMPO, TEMPERATURA, LUZ) VALUES (?, ?, ?, ?, ?)',
@@ -193,45 +182,41 @@ const base_datos = async (bomba, humedad, fecha, temperatura, luz, size) =>
     }
 }
 
-const inicializacion = async () =>
-{
+const inicializacion = async () => {
     const [rows] = await connect.query('SELECT BOMBA, TIEMPO FROM Estado WHERE ID = 1');
-    if(rows[0].BOMBA)
-    {
-        var fecha_inicio = new Date(`${rows[0].TIEMPO}`)
-        if ((fecha_inicio.getHours() == Funciones.short_time[0]) && Math.abs(fecha_inicio.getMinutes() - Funciones.short_time[1]) < 1)
-        {
-            if (Math.abs(fecha_inicio.getSeconds() - Funciones.short_time[2]) < 20) {
-                hum_temp.contador = 7;
-            }
-            else{
-                hum_temp.contador = 5;
+    try {
+        if (rows[0].BOMBA) {
+            var fecha_inicio = new Date(`${rows[0].TIEMPO}`)
+            if ((fecha_inicio.getHours() == Funciones.short_time[0]) && Math.abs(fecha_inicio.getMinutes() - Funciones.short_time[1]) < 1) {
+                if (Math.abs(fecha_inicio.getSeconds() - Funciones.short_time[2]) < 20) {
+                    hum_temp.contador = 7;
+                }
+                else {
+                    hum_temp.contador = 5;
+                }
             }
         }
-    }
-    if(hum_temp.contador > 5) {
+    } catch (error) {}
+    if (hum_temp.contador > 5) {
         Funciones.values.bomba = true;
     }
 }
 
 //Constructor de la clase de elementos:
-function Update_base_datos()
-{
+function Update_base_datos() {
     this.status_bomba = false;
     this.contador = 0;
     this.size = 11;
     this.inicio_time = true;
     this.contador_inicial = 1;
-    this.Update_base = function()
-    {
+    this.Update_base = function () {
         Funciones.Update()
         if (Funciones.inicio) {
             inicializacion();
         }
         console.log(`${Funciones.Estado_boton(this.status_bomba)} / ${hum_temp.humedad} / ${Funciones.Fecha()} / ${hum_temp.temperatura} / ${Funciones.cambiar_luz()}%`);
-        if(this.status_bomba || Funciones.values.bomba)
-        {
-            if(this.status_bomba){
+        if (this.status_bomba || Funciones.values.bomba) {
+            if (this.status_bomba) {
                 indice = 1;
             }
             base_datos(
@@ -245,7 +230,7 @@ function Update_base_datos()
             this.inicio_time = false;
             this.contador_inicial = 0;
             this.contador = 0;
-            if(Funciones.values.bomba) {
+            if (Funciones.values.bomba) {
                 if (hum_temp.contador === 4) {
                     Funciones.values.bomba = false;
                     this.inicio_time = true;
@@ -254,40 +239,43 @@ function Update_base_datos()
             }
         }
         this.contador += 1;
-        if(this.contador > 2 || this.inicio_time)
-        {
-            if(this.contador_inicial == 12){
+        if (this.contador > 2 || this.inicio_time) {
+            if (this.contador_inicial == 12) {
                 this.inicio_time = false;
                 this.contador_inicial = 0;
             }
-            else if (this.contador_inicial != 0){
+            else if (this.contador_inicial != 0) {
                 this.contador_inicial += 1;
             }
             base_datos(
-                Funciones.Estado_boton(this.status_bomba), 
-                hum_temp.humedad, 
+                Funciones.Estado_boton(this.status_bomba),
+                hum_temp.humedad,
                 Funciones.Fecha(),
-                hum_temp.temperatura, 
+                hum_temp.temperatura,
                 Funciones.cambiar_luz(),
                 this.size)
             this.contador = 0;
         }
     }
-    this.contador_elements = function()
-    {
+    this.contador_elements = function () {
         return hum_temp.contador;
     }
-    this.indice_values = function()
-    {
-        if(indice == 11)
-        {
+    this.indice_values = function () {
+        if (indice == 11) {
             indice = 1;
         }
         return indice;
     }
-    this.time_vivo = function()
-    {
+    this.time_vivo = function () {
         return Funciones.Fecha();
+    }
+    this.Estado_bomba_envio = function() {
+        if(Funciones.values.bomba){
+            return 1;
+        }
+        else {
+            return 0;
+        }
     }
 }
 

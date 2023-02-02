@@ -26,7 +26,7 @@ const obtencion_tem_hum = async (tiempo, value, inicio) => {
     }
     if (Math.abs(tiempo - hum_temp.Now) >= 10 || inicio) 
     {
-        console.log("Entro.")
+        console.log("-----------------------");
         hum_temp.Now = tiempo;
         try
         {
@@ -116,26 +116,26 @@ export const Funciones = {
         //Actualizar recien empieza:
         if (this.inicio && this.estatus_day == 'AM' && this.short_time[0] >= 6) 
         {
-            this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 420)) / 720;
+            this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 360)) / 360;
             this.values.luz = this.values.luz.toFixed(2);
             this.inicio = false;
         }
-        else if (this.inicio && this.estatus_day == 'PM' && this.short_time[0] <= 6) 
+        else if (this.inicio && this.estatus_day == 'PM' && this.short_time[0] < 6) 
         {
-            this.values.luz = 100 - (100 * (this.short_time[1] + (this.short_time[0] * 60))) / 720;
+            this.values.luz = 100 - (100 * (this.short_time[1] + (this.short_time[0] * 60))) / 360;
             this.values.luz = this.values.luz.toFixed(2);
             this.inicio = false;
         }
         else{
-            this.inicio = false;
+            this.inicio = false;  
         }
         //Actualizar Fecha:
         if (this.change && this.estatus_day == 'AM' && this.short_time[0] >= 6) {
             this.change = false;
-            this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 420)) / 720;
+            this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 360)) / 720;
             this.values.luz = this.values.luz.toFixed(2);
         }
-        else if (this.change && this.estatus_day == 'PM' && this.short_time[0] <= 6) 
+        else if (this.change && this.estatus_day == 'PM' && this.short_time[0] < 6) 
         {
             this.change = false;
             this.values.luz = 100 - (100 * (this.short_time[1] + (this.short_time[0] * 60))) / 720;
@@ -146,7 +146,7 @@ export const Funciones = {
             {
                 this.values.luz = 0;
             }
-            else if (this.estatus_day == 'PM' && this.short_time[0] > 6)
+            else if (this.estatus_day == 'PM' && this.short_time[0] >= 6)
             {
                 this.values.luz = 0;
             }

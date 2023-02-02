@@ -28,6 +28,7 @@ export const ultimo_modificados = async (req, res) =>
         if (result.length <= 0) return res.status(404).json({
             message: 'Elemento no encontrado'
         })
+        result[0].time_actual = change.time_vivo()
         res.json(result);
     },  150);
 }

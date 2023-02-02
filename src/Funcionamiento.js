@@ -285,6 +285,10 @@ function Update_base_datos()
         }
         return indice;
     }
+    this.time_vivo = function()
+    {
+        return Funciones.Fecha();
+    }
 }
 
 export const change = new Update_base_datos();

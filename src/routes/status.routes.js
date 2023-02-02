@@ -15,8 +15,8 @@ routes.get('/:id', elemento)
 
 routes.get('/state/num', ultimo_modificados)
 
-routes.post('/', insertar_elemento)
+routes.get('/agua/bomba', insertar_elemento)
 
-routes.delete('/', eliminar)
+routes.get('/eliminar/datos', eliminar)
 
 export default routes;

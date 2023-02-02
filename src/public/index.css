@@ -4,15 +4,17 @@ body {
 }
 
 #main-container{
-    margin: 150px auto;
+    margin-top: 20px;
+    margin-left: 50px;
     width: 600px;
+    bottom: 100px;
 }
 
 table{
     background-color: white;
-    text-align: left;
+    text-align: center;
     border-collapse: collapse;
-    width: 100%;
+    width: 200%;
 }
 
 th, td{
@@ -21,16 +23,16 @@ th, td{
 }
 
 thead{
-    background-color:rgba(127, 255, 212, 0.281);
+    background-color:rgba(37, 24, 155, 0.281);
     border-bottom: solid 5px;
 }
 
 tr:nth-child(even){
-    background-color:azure;
+    background-color:rgb(200, 228, 228);
 }
 
 tr:hover td{
-    background-color:aquamarine;
+    background-color:rgb(46, 218, 160);
     color: black;
 }
 

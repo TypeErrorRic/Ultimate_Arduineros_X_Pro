@@ -1,24 +1,31 @@
 <%- include('partials/header'); %>
     <body>
+        <h1 style="text-align: center;">BASE DE DATOS</h1>
         <div id="main-container">
             <table class="default">
-                <thead>
+            <thead>
+                <tr>
+                    <th>ID</th>
+
+                    <th>BOMBA</th>
+
+                    <th>HUMEDAD</th>
+
+                    <th>TIEMPO</th>
+
+                    <th>TEMPERATURA</th>
+
+                    <th>LUZ</th>
+                </tr>
+            </thead>
+                <% for(let i=0; i < base.length; i++) { %>
                     <tr>
-                        <th>ID</th>
-                        <th>BOMBA</th>
-                        <th>HUMEDAD</th>
-                        <th>TIEMPO</th>
-                        <th>TEMPERATURA</th>
-                        <th>LUZ</th>
-                    </tr>
-                </thead>
-                <% for(let i=0; i < tabla.length; i++) { %>
-                    <tr>
-                        <% for(let j=0; j < tabla[i].length; j++) { %>
-                            <td>
-                                <%= tabla[i][j]%>
-                            </td>
-                        <% } %>
+                        <th><%= base[i].ID %></th>
+                        <td><%= base[i].BOMBA %></td>
+                        <td><%= base[i].HUMEDAD %></td>
+                        <td><%= base[i].TIEMPO  %></td>
+                        <td><%= base[i].TEMPERATURA %></td>
+                        <td><%= base[i].LUZ %></td>
                     </tr>
                 <% } %>
             </table>

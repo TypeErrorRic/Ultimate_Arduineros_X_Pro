@@ -4,7 +4,7 @@ import fetch from 'cross-fetch';
 let date = new Date();
 const url = "https://api.openweathermap.org/data/2.5/weather?"
 const apy_key = "6484f72d4341c29100bed5706514747c"
-const lugar = "lat=44.34&lon=10.99"
+const lugar = "lat=3.45&lon=-76.53"
 const unidades = "units=metric"
 
 let indice = 1;
@@ -26,6 +26,8 @@ const obtencion_tem_hum = async (tiempo, value, inicio) => {
     }
     if (Math.abs(tiempo - hum_temp.Now) >= 10 || inicio) 
     {
+        console.log("Entro.")
+        hum_temp.Now = tiempo;
         try
         {
             await fetch(`${url}${lugar}&appid=${apy_key}&${unidades}`).
@@ -33,7 +35,6 @@ const obtencion_tem_hum = async (tiempo, value, inicio) => {
                 then(data => {
                     hum_temp.temperatura = data.main.temp
                     hum_temp.humedad = data.main.humidity
-                    hum_temp.Now = tiempo;
                     if (hum_temp.contador != 0) {
                         hum_temp.temperatura = data.main.temp - ((10 - hum_temp.contador) / 10);
                         hum_temp.temperatura = hum_temp.temperatura.toFixed(2)
@@ -96,7 +97,7 @@ export const Funciones = {
         if(this.estatus_day.length > 2){
             this.estatus_day = this.estatus_day.substring(1);
         }
-        this.short_time[0] = parseInt(date.toLocaleString('en-US', { hour: 'numeric', hour12: true })[0])
+        this.short_time[0] = date.getHours();
         this.short_time[1] = date.getMinutes()
         this.short_time[2] = date.getSeconds()
         //temp y hum:
@@ -113,39 +114,45 @@ export const Funciones = {
     },
     cambiar_luz: function () {
         //Actualizar recien empieza:
-        if (this.inicio && this.estatus_day == 'AM' && this.short_time[0] >= 7) 
+        if (this.inicio && this.estatus_day == 'AM' && this.short_time[0] >= 6) 
         {
             this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 420)) / 720;
             this.values.luz = this.values.luz.toFixed(2);
             this.inicio = false;
         }
-        else if (this.inicio && this.estatus_day == 'PM' && this.short_time[0] <= 7) 
+        else if (this.inicio && this.estatus_day == 'PM' && this.short_time[0] <= 6) 
         {
             this.values.luz = 100 - (100 * (this.short_time[1] + (this.short_time[0] * 60))) / 720;
             this.values.luz = this.values.luz.toFixed(2);
+            this.inicio = false;
+        }
+        else{
             this.inicio = false;
         }
         //Actualizar Fecha:
-        if (this.change && this.estatus_day == 'AM' && this.short_time[0] >= 7) {
+        if (this.change && this.estatus_day == 'AM' && this.short_time[0] >= 6) {
             this.change = false;
             this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 420)) / 720;
             this.values.luz = this.values.luz.toFixed(2);
         }
-        else if (this.change && this.estatus_day == 'PM' && this.short_time[0] <= 7) 
+        else if (this.change && this.estatus_day == 'PM' && this.short_time[0] <= 6) 
         {
             this.change = false;
             this.values.luz = 100 - (100 * (this.short_time[1] + (this.short_time[0] * 60))) / 720;
             this.values.luz = this.values.luz.toFixed(2);
         }
-        else if (indice%2 === 0) {
-            this.change = true;
-            if (this.short_time[0] <= 7 && this.estatus_day == 'AM')
+        else if (indice % 2 === 0) {
+            if (this.short_time[0] < 6 && this.estatus_day == 'AM')
             {
-                this.values.luz == 0;
+                this.values.luz = 0;
             }
-            else if (this.estatus_day == 'PM' && this.short_time[0] >= 7)
+            else if (this.estatus_day == 'PM' && this.short_time[0] > 6)
             {
-                this.values.luz == 0;
+                this.values.luz = 0;
+            }
+            else
+            {
+                this.change = true;
             }
         }
         return this.values.luz;
@@ -186,7 +193,7 @@ const base_datos = async (bomba, humedad, fecha, temperatura, luz, size) =>
 function Update_base_datos()
 {
     this.status_bomba = false;
-    this.contador = 1;
+    this.contador = 0;
     this.size = 11;
     this.Update_base = function()
     {

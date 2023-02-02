@@ -29,14 +29,20 @@ export const ultimo_modificados = async (req, res) =>
             message: 'Elemento no encontrado'
         })
         res.json(result);
-    },  100);
+    },  150);
 }
 
 export const insertar_elemento = async (req, res) => {
-    const {bomba} = req.body;
-    if(change.contador_elements() === 0)
+    let bomba = false;
+    if(req.query.bomba != undefined) {
+        if (parseInt(req.query.bomba) === 1) {
+            bomba = true;
+        }
+    }
+    if (change.contador_elements() === 0 && bomba)
     {
         change.status_bomba = bomba;
+        change.Update_base();
         res.status(200).json({
             message: "Cambiado",
         })
@@ -50,6 +56,8 @@ export const insertar_elemento = async (req, res) => {
 }
 
 export const eliminar = async (req, res) => {
-    const [result] = await connect.query('DELETE FROM Estado');
+    const [result] = await connect.query('TRUNCATE Estado');
+    change.contador = 1;
+    res.json(result);
 }
 

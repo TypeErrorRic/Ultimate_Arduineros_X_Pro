@@ -163,7 +163,7 @@ export const Funciones = {
             obtencion_tem_hum(this.short_time[2], true, false)
         }
         if (this.values.bomba) {
-            if (hum_temp.contador === 5)
+            if (hum_temp.contador === 8)
             {
                 this.values.bomba = false;
             }
@@ -195,6 +195,8 @@ function Update_base_datos()
     this.status_bomba = false;
     this.contador = 0;
     this.size = 11;
+    this.inicio_time = true;
+    this.contador_inicial = 1;
     this.Update_base = function()
     {
         Funciones.Update()
@@ -209,10 +211,17 @@ function Update_base_datos()
                 Funciones.cambiar_luz(),
                 this.size)
             this.status_bomba = false;
+            this.contador = 0;
         }
         this.contador += 1;
-        if(this.contador > 2)
+        if(this.contador > 2 || this.inicio_time)
         {
+            if(this.contador_inicial == 12)
+            {
+                this.inicio_time = false;
+            }
+            this.contador_inicial += 1;
+            console.log("entrar");
             base_datos(
                 Funciones.Estado_boton(this.status_bomba), 
                 hum_temp.humedad, 

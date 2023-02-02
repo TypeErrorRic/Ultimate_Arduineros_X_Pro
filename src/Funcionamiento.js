@@ -221,7 +221,6 @@ function Update_base_datos()
                 this.inicio_time = false;
             }
             this.contador_inicial += 1;
-            console.log("entrar");
             base_datos(
                 Funciones.Estado_boton(this.status_bomba), 
                 hum_temp.humedad, 

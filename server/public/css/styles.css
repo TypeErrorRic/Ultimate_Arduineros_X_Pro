@@ -77,6 +77,7 @@ h1{
 .button:hover{
     width: 23%;
     height: 23%;
+    cursor: pointer;
 }
 
 .regadera{
@@ -91,6 +92,7 @@ h1{
 }
 
 .casilla{
+    position: relative;
     padding: 2px;
     margin: 10px;
     font-size:100%;
@@ -102,4 +104,51 @@ h1{
     border-width: 3px;
     border-style: solid;
     border-color: rgb(86, 222, 179);
+}
+
+.tiempo{
+    width: 120%;
+    background-color: transparent;
+    position: absolute;
+    text-align: center;
+    left: -13%;
+    top: 100%;
+}
+
+.links{
+    z-index: 3;
+    display: block;
+    height: 40px;
+    width: 150px;
+    padding: 5px;
+    text-align: center;
+    line-height: 40px;
+    text-decoration: none;
+    border-radius: 15px;
+    border-style: solid;
+    background-color: rgb(107, 188, 194);
+    color: rgb(255, 255, 255);
+    position: relative;
+}
+
+.links:hover{
+    background-color: rgb(255, 255, 255);
+    color:  rgb(107, 188, 194);
+    border-color:  rgb(107, 188, 194);
+}
+#borrar:hover{
+    cursor: pointer;
+}
+#KILL{
+    top: 100%;
+    left: 44%;
+    position: absolute;
+    color: transparent;
+    background-color: transparent;
+    border-color: transparent;
+}
+#KILL:hover{
+    background-color: rgb(185, 48, 48);
+    color: rgb(255, 255, 255);
+    border-color: rgb(185, 48, 48);
 }

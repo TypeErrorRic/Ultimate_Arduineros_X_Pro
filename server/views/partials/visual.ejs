@@ -16,66 +16,23 @@
     <div class="plantAnim" id="plantAnim">
         <div class="backg">
         </div>
+        <div class="tiempo" id="tiempo">
+        </div>
     </div>
 
 </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.1/lottie.min.js" type="text/javascript"></script>
+<div style="position: absolute; left: 85%; top: 20%;">
+    <a href="https://plantica.onrender.com/" target="_blank" class="links" id="baseDatos">BASE DE DATOS</a>
+    <div class="links" id="borrar">REFRESCAR</div>
+</div>
+<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" target="_blank" class="links" id="KILL">KILL</a>
 
 <script>
-
-    let sunAnim = document.getElementById('sunAnim');
-    let moonAnim = document.getElementById('moonAnim');
-    let plantAnim = document.getElementById('plantAnim');
-    let regar = document.querySelector('.regar');
-    let backg = document.querySelector('.backg');
-    
-
-    var animation = bodymovin.loadAnimation({
-        container: sunAnim, // Required
-        path: 'https://assets9.lottiefiles.com/private_files/lf30_Um0Z9o.json', // Required
-        renderer: 'svg', // Required
-        loop: true, // Optional
-        autoplay: true, // Optional
-        name: "sun", // Name for future reference. Optional.
-    })
-
-    var animation = bodymovin.loadAnimation({
-        container: moonAnim, // Required
-        path: 'https://assets7.lottiefiles.com/packages/lf20_6y2od13d.json', // Required
-        renderer: 'svg', // Required
-        loop: true, // Optional
-        autoplay: true, // Optional
-        name: "moonAnim", // Name for future reference. Optional.
-    })
-
-    var animation = bodymovin.loadAnimation({
-        container: plantAnim, // Required
-        path: 'https://assets1.lottiefiles.com/packages/lf20_xd9ypluc.json', // Required
-        renderer: 'svg', // Required
-        loop: false, // Optional
-        autoplay: true, // Optional
-        name: "plant", // Name for future reference. Optional.
-    })
-
-    var animation = bodymovin.loadAnimation({
-        container: backg, // Required
-        path: 'https://assets10.lottiefiles.com/packages/lf20_k6ckuttb.json', // Required
-        renderer: 'svg', // Required
-        loop: false, // Optional
-        autoplay: true, // Optional
-        name: "backg", // Name for future reference. Optional.
-    })
-
-    var animation = bodymovin.loadAnimation({
-        container: regar, // Required
-        path: 'https://assets9.lottiefiles.com/packages/lf20_fhxk8c44.json', // Required
-        renderer: 'svg', // Required
-        loop: true, // Optional
-        autoplay: true, // Optional
-        name: "regar", // Name for future reference. Optional.
-    })
-
+    document.getElementById('sunAnim').style.display = 'none'
+    document.getElementById('moonAnim').style.display = 'none'
 </script>
-<script src="../javascript/visualControl.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.1/lottie.min.js" type="text/javascript"></script>
+<script src="../javascript/animaciones.js"></script>
+<script src="../javascript/buttonControl.js"></script>
 <script src="../javascript/refresh.js"></script>

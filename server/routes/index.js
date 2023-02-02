@@ -7,12 +7,16 @@ router.get('/', (req, res) => {
 });
 
 //Scripts
-router.get('/javascript/visualControl.js', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'views', 'javascript', 'visualControl.js'));
+router.get('/javascript/buttonControl.js', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'javascript', 'buttonControl.js'));
 });
 
 router.get('/javascript/refresh.js', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'javascript', 'refresh.js'));
+});
+
+router.get('/javascript/animaciones.js', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'javascript', 'animaciones.js'));
 });
 
 module.exports = router;

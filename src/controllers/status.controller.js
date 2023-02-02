@@ -57,7 +57,7 @@ export const insertar_elemento = async (req, res) => {
 
 export const eliminar = async (req, res) => {
     const [result] = await connect.query('TRUNCATE Estado');
-    change.contador = 1;
+    change.contador = 2;
     res.json(result);
 }
 

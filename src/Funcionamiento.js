@@ -132,7 +132,7 @@ export const Funciones = {
         }
         else if (this.inicio && this.estatus_day == 'PM' && (this.short_time[0] - 12) < 6) 
         {
-            this.values.luz = 100 - (100 * (this.short_time[1] + ((this.short_time[0] - 12) * 60))) / 360;
+            this.values.luz = 100 - (100 * (this.short_time[1] + ((this.short_time[0] - 12) * 60)) / 360);
             this.values.luz = this.values.luz.toFixed(2);
             this.inicio = false;
         }
@@ -142,13 +142,13 @@ export const Funciones = {
         //Actualizar Fecha:
         if (this.change && this.estatus_day == 'AM' && this.short_time[0] >= 6) {
             this.change = false;
-            this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 360)) / 720;
+            this.values.luz = (100 * (this.short_time[1] + (this.short_time[0] * 60) - 360)) / 360;
             this.values.luz = this.values.luz.toFixed(2);
         }
         else if (this.change && this.estatus_day == 'PM' && (this.short_time[0] - 12) < 6) 
         {
             this.change = false;
-            this.values.luz = 100 - (100 * (this.short_time[1] + ((this.short_time[0] - 12) * 60))) / 720;
+            this.values.luz = 100 - (100 * (this.short_time[1] + ((this.short_time[0] - 12) * 60)) / 360);
             this.values.luz = this.values.luz.toFixed(2);
         }
         else if (indice % 2 === 0) {

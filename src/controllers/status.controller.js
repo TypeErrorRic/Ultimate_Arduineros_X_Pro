@@ -6,24 +6,31 @@ export const get_status = async (req, res) => {
     res.json(result)
 }
 
-export const elemento = async (req, res) =>
-{
+export const elemento = async (req, res) => {
     const [result] = await connect.query('SELECT * FROM Estado')
-    if (result.length < req.params.id) 
-        return res.status(404).json({
-            message: "Elemento no encontrado"
-        })
-    else 
-    {
-        const [rows] = await connect.query('SELECT * FROM Estado WHERE ID = ?', [req.params.id])
-        res.status(200).json(rows[0]);
+    let element;
+    try {
+        element = parseInt(req.query.q);
+    } catch (e) {
+        return res.status(404).send("Valor no valido. Ingrese otro")
+    }
+    if (result.length < element){
+        return res.status(404).send("Número no permitido. Ingrese otro valor.")
+    }
+    else {
+        const [rows] = await connect.query('SELECT * FROM Estado WHERE ID = ?', [element])
+        setTimeout(() => {
+            res.render('individual', {
+                base: rows[0],
+            })
+        }, 200)
     }
 }
 
-export const ultimo_modificados = async (req, res) =>
-{
+
+export const ultimo_modificados = async (req, res) => {
     change.Update_base();
-    setTimeout( async () => {
+    setTimeout(async () => {
         const [result] = await connect.query('SELECT * FROM Estado WHERE id = ?', [change.indice_values() % change.size])
         if (result.length <= 0) return res.status(206).json({
             ID: 1,
@@ -37,26 +44,24 @@ export const ultimo_modificados = async (req, res) =>
         result[0].BOMBA = change.Estado_bomba_envio()
         result[0].time_actual = change.time_vivo()
         res.json(result);
-    },  150);
+    }, 250);
 }
 
 export const insertar_elemento = async (req, res) => {
     let bomba = false;
-    if(req.query.bomba != undefined) {
+    if (req.query.bomba != undefined) {
         if (parseInt(req.query.bomba) === 1) {
             bomba = true;
         }
     }
-    if (change.contador_elements() === 0 && bomba)
-    {
+    if (change.contador_elements() === 0 && bomba) {
         change.status_bomba = bomba;
         change.Update_base();
         res.status(200).json({
             message: "Cambiado",
         })
     }
-    else
-    {
+    else {
         res.status(200).json({
             message: "No Cambiado",
         })
@@ -69,3 +74,12 @@ export const eliminar = async (req, res) => {
     res.json(result);
 }
 
+export const eliminar2 = async (req, res) => {
+    await connect.query('TRUNCATE Estado');
+    const [result] = await connect.query('SELECT * FROM Estado')
+    setTimeout(() => {
+        res.render('tabla', {
+            base: result,
+        })
+    }, 200)
+}

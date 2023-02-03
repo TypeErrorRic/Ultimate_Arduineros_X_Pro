@@ -15,7 +15,7 @@ export const elemento = async (req, res) => {
         return res.status(404).send("Valor no valido. Ingrese otro")
     }
     if (result.length < element){
-        return res.status(404).render('id_grande')
+        return res.status(404).render('grande')
     }
     else {
         const [rows] = await connect.query('SELECT * FROM Estado WHERE ID = ?', [element])

@@ -29,12 +29,19 @@ app.get('/', async (req, res) => {
         res.render('tabla', {
             base: result,
         })
-}, 200)
+    }, 200)
 });
 
-app.use((req, res) => {
-    res.status(404).send("Pagina No encontrada. Base de datos ON")
+//Pagina de informacion:
+app.get('/about', async (req, res) => {
+    res.render('about')
 });
+
+//Pagina por default
+app.use((req, res) => {
+    res.status(404).render("No_found")
+});
+
 //Establecer puerto de escucha.
 app.listen(PORT);
 console.log(`Está escuchando en el puerto ${PORT}`)

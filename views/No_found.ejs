@@ -1,0 +1,29 @@
+<%- include('partials/header'); %>
+
+    <body>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #e3f2fd;"">
+            <div class=" container-fluid">
+            <a class="navbar-brand" href="/">Mi Planta</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0"> 
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/about">Informacion</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search" action="/api/element" method="get">
+                    <input class="form-control me-2" placeholder="Buscar por ID" aria-label="Search" id="numero"
+                        type="number" min="1" pattern="^[0-9]+" maxlength="2" name="q" required>
+                    <button type="submit" class="btn btn-outline-primary" all="">Search</button>
+                </form>
+            </div>
+            </div>
+        </nav>
+        <h1 class="display-4" style="text-indent:20px;">Elemento No Encontrado</h1>
+    </body>
+
+    <%- include('partials/footer'); %>

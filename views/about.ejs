@@ -1,0 +1,84 @@
+<%- include('partials/header'); %>
+
+    <body>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #e3f2fd;">
+            <div class=" container-fluid">
+                <a class="navbar-brand" href="/">Mi Planta</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/about">Informacion</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search" action="/api/element" method="get">
+                        <input class="form-control me-2" placeholder="Buscar por ID" aria-label="Search" id="numero"
+                            type="number" min="1" pattern="^[0-9]+" maxlength="2" name="q" required>
+                        <button type="submit" class="btn btn-outline-primary" all="">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <h1 class="display-4" style="text-align: center;">Información</h1>
+        <figure class="text-center">
+            <blockquote class="blockquote">
+                <br />
+                <br />
+                <br />
+                <p class="lead">
+                    El presente proyecto consiste en el desarrollo de un sistema de IoT <br />
+                    (siglas de Internet of Things) de monitoreo y riego de un cultivo (Mi Planta),<br />
+                    a partir de la toma de datos de la temperatura del ambiente, la humedad <br />
+                    y la luz recibida; mediante el análisis continuo de estos datos se <br />
+                    logra monitorear el buen estado de la planta y su crecimiento.
+                </p>
+                <br />
+                <br />
+                <h1 class="display-5" style="text-align: center;">Desarrolladores</h1>
+                <br />
+                <br />
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                Backend: <cite title="Source Title">Ricardo Pabón Serna.</cite>
+            </figcaption>
+            <figcaption class="blockquote-footer">
+                Frontend: <cite title="Source Title">Brayan Arley Mena Trejos.</cite>
+            </figcaption>
+            <br />
+            <br />
+            <h1 class="display-5" style="text-align: center;">Contribuidores</h1>
+            <br />
+            <br />
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                <cite title="Source Title">Susana Valencia.</cite>
+            </figcaption>
+            <figcaption class="blockquote-footer">
+                <cite title="Source Title">Sebastián Gongora.</cite>
+            </figcaption>
+            <br />
+            <br />
+            <i class='bx bxs-leaf bx-lg'></i>
+            <box-icon name='leaf' type='solid' animation='tada' color='#7dea4c' size="lg"></box-icon>
+            <br />
+            <br />
+            <h1 class="display-7" style="text-align: center;">Contacto</h1>
+            <ul class="list-unstyled">
+                <li>ricado.pabon@correounivalle.edu.co</li>
+            </ul>
+            <figure class="text-end">
+                <blockquote class="blockquote">
+                    <p>Pagína desarrollada y administrada por</p>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                    <cite title="Source Title">Ricardo Pabón Serna (TypeErrorRic)</cite>
+                </figcaption>
+            </figure>
+        </figure>
+    </body>
+
+    <%- include('partials/footer'); %>

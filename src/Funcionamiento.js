@@ -89,7 +89,7 @@ export const Funciones = {
         this.long_time[1] = date.getDate()
         this.long_time[2] = date.getFullYear()
         //Short tiempo:
-        this.short_time[0] = date.getHours() - 5;
+        this.short_time[0] = date.getHours() - 5 < 0 ? (24 + (date.getHours() - 5)) : (date.getHours() - 5);
         if (12 <= date.getHours() && date.getHours() < 17) {
             this.estatus_day = 'AM'
         }

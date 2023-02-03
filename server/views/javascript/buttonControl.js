@@ -38,7 +38,7 @@ function regarPlanta() {
 }
 
 function borrarBaseDatos (){
-    fetch("https://plantica.onrender.com/api/elminar/datos")
+    fetch("https://plantica.onrender.com/api/eliminar/datos")
         .then(res => res.json())
     alert("Se refrescó la base de datos")
 }

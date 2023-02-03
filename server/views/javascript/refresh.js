@@ -19,7 +19,9 @@ fetch(url)
         temp1 = `${data[0].TEMPERATURA}`
         hum1 = `${data[0].HUMEDAD}`
         lu1 = `${data[0].LUZ}`
-        bomb1 = `${data[0].BOMBA}`
+        if(data[0].BOMBA == 0){
+            bomb1 = "Apagado"
+        } else { bomb1 = "Encendido"}
         tiem1 = `<p>${tiemp2}<p>`
         temp.innerHTML = temp1;
         hum.innerHTML = hum1;
@@ -40,7 +42,9 @@ window.setInterval(function () {
         temp1 = `${data[0].TEMPERATURA}`
         hum1 = `${data[0].HUMEDAD}`
         lu1 = `${data[0].LUZ}`
-        bomb1 = `${data[0].BOMBA}`
+        if(data[0].BOMBA == 0){
+            bomb1 = "Apagado"
+        } else { bomb1 = "Encendido"}
         tiem1 = `<p>${tiemp2}<p>`
         temp.innerHTML = temp1;
         hum.innerHTML = hum1;

@@ -10,7 +10,7 @@ const url = "https://plantica.onrender.com/api/state/num"
 fetch(url)
     .then(response => response.json())
     .then(data => {
-        //console.log(data)
+        console.log(data)
         var tiemp2 = new Date(`${data[0].time_actual}`);
         if(data[0].BOMBA == 0){
             bomb.innerHTML = "Apagado";
@@ -29,7 +29,7 @@ window.setInterval(function () {
         .then(data => dataPlanta(data))
 
     function dataPlanta(data) {
-        //console.log(data)
+        console.log(data)
         var tiemp2 = new Date(`${data[0].time_actual}`);
         if(data[0].BOMBA == 0){
             bomb.innerHTML = "Apagado";

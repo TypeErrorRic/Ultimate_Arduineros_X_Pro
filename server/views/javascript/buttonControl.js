@@ -1,19 +1,21 @@
-//Control de animaciones
-let counter = 0;
-
 //Control Boton
 const button = document.getElementById('button');
 const baseDatos = document.getElementById('borrar');
 const troll = document.getElementById('KILL');
+let counter = 0;
 
+//Esperar a un evento
 button.addEventListener('click', regarPlanta);
 borrar.addEventListener('click', borrarBaseDatos);
 troll.addEventListener('click', function() {alert("No puedes matar a plantica >:(")});
 
+//Regar la planta
 function regarPlanta() {
 
     ++counter;
+    //Control de una sola pulsacion
     if (counter < 2) {
+        //Guardar en la base de datos bomba encendida (metodo get)
         fetch("https://plantica.onrender.com/api/agua/bomba?bomba=1")
             .then(response => response.json())
             .then(data => {
@@ -37,6 +39,7 @@ function regarPlanta() {
     };
 }
 
+//Refrescar base de datos
 function borrarBaseDatos (){
     fetch("https://plantica.onrender.com/api/eliminar/datos")
         .then(res => res.json())

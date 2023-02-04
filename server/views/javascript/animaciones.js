@@ -1,21 +1,25 @@
+//Variables
 let sunAnim = document.getElementById('sunAnim');
 let moonAnim = document.getElementById('moonAnim');
 let plantAnim = document.getElementById('plantAnim');
 let regar = document.querySelector('.regar');
 let backg = document.querySelector('.backg');
 
+//Control animacion del astro
 fetch("https://plantica.onrender.com/api/state/num")
     .then(response => response.json())
     .then(data => {
         let luz = ''
         luz = `${data[0].LUZ}`;
-        if (luz > 30) {
+        if (luz > 10) {
             sunAnim.style.display = 'block';
         } else {
             moonAnim.style.display = 'block';
         }
     })
 
+//Animaciones de LottieFiles
+//Sol
 var animation = bodymovin.loadAnimation({
     container: sunAnim, // Required
     path: 'https://assets9.lottiefiles.com/private_files/lf30_Um0Z9o.json', // Required
@@ -25,6 +29,7 @@ var animation = bodymovin.loadAnimation({
     name: "sun", // Name for future reference. Optional.
 })
 
+//Luna
 var animation = bodymovin.loadAnimation({
     container: moonAnim, // Required
     path: 'https://assets7.lottiefiles.com/packages/lf20_6y2od13d.json', // Required
@@ -34,6 +39,7 @@ var animation = bodymovin.loadAnimation({
     name: "moonAnim", // Name for future reference. Optional.
 })
 
+//Planta
 var animation = bodymovin.loadAnimation({
     container: plantAnim, // Required
     path: 'https://assets1.lottiefiles.com/packages/lf20_xd9ypluc.json', // Required
@@ -43,6 +49,7 @@ var animation = bodymovin.loadAnimation({
     name: "plant", // Name for future reference. Optional.
 })
 
+//Fondo de la planta
 var animation = bodymovin.loadAnimation({
     container: backg, // Required
     path: 'https://assets10.lottiefiles.com/packages/lf20_k6ckuttb.json', // Required
@@ -52,6 +59,7 @@ var animation = bodymovin.loadAnimation({
     name: "backg", // Name for future reference. Optional.
 })
 
+//LLuvia
 var animation = bodymovin.loadAnimation({
     container: regar, // Required
     path: 'https://assets9.lottiefiles.com/packages/lf20_fhxk8c44.json', // Required
